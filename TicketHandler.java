@@ -1,12 +1,12 @@
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 
 public class TicketHandler {
 	
 	public static final TicketHandler instance = new TicketHandler();
-	private Set<Ticket> ticketList = new HashSet<>();
+	private Map<Integer, Ticket> tickets = new HashMap<>();
 	private Random rand = new Random();
 	private int currTicketNumber = 0;
 	
@@ -34,25 +34,19 @@ public class TicketHandler {
 	public int getPriceForTicket(int number)
 	{
 		Ticket curr = null;
-		for (Ticket t: ticketList)
-		{
-			if (t.number == number)
-			{
-				curr = t;
-				if (t.paid)
-				{
-					throw new TicketAlreadyPaidException( number);
-				}
-				break;
-			}
-		}
 		
-		if ( curr != null)
+		if (tickets.containsKey( number))
+		{
+			curr = tickets.get( number);
+			if (curr.paid) {
+				throw new TicketAlreadyPaidException( number);
+			}
 			return curr.price;
+		}
 		else
 		{
 			Ticket newTicket = new Ticket( number, Math.abs( 200 + (rand.nextInt() % 100) * 20));
-			ticketList.add( newTicket);
+			tickets.put( number, newTicket);
 			return newTicket.price;
 		}
 			 
@@ -60,13 +54,9 @@ public class TicketHandler {
 	
 	public void setTicketPaid(int number)
 	{
-		for (Ticket t: ticketList)
+		if (tickets.containsKey( number))
 		{
-			if (t.number == number)
-			{
-				t.paid = true;
-				return;
-			}
+			tickets.get( number).paid = true;
 		}
 	}
 }
