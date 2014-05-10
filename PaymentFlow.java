@@ -31,6 +31,8 @@ public class PaymentFlow {
 		while (true)
 		{
 			int value = userInput.askForCoin();
+			currentPayment.coinInserted( value);
+			
 			if (value > 0  &&  ! needMoreCoins( value))
 			{
 				break;
@@ -44,7 +46,6 @@ public class PaymentFlow {
 	
 	private boolean needMoreCoins( int value)
 	{
-		currentPayment.coinInserted( value);
 		if (currentPayment.paymentDone())
 		{
 			System.out.println( "  Payment done");
