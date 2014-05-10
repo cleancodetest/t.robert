@@ -4,16 +4,9 @@ import java.io.InputStreamReader;
 
 
 public class UserInput {
-	
-	private CoinProcessor coinProcessor;
-	
-	
-	public UserInput(CoinProcessor coinProcessor) {
-		this.coinProcessor = coinProcessor;
-	}
+		
 
-
-	public int askForCoin()
+	public static int askForCoin()
 	{
 		int value = 0;
 		boolean invalid = false;
@@ -31,11 +24,11 @@ public class UserInput {
 			{
 				invalid = true; 
 			}
-			if ( invalid || ! coinProcessor.isValidCoin(value))
+			if ( invalid || ! CoinProcessor.instance.isValidCoin(value))
 			{
 				System.out.println("  Invalid coin!");
 				System.out.print("  Accepted coins:");
-				for (CoinProcessor.Coin coin: coinProcessor.getAcceptedCoins())
+				for (CoinProcessor.Coin coin: CoinProcessor.instance.getAcceptedCoins())
 					System.out.print( " " + coin.getValue());
 				System.out.println();
 				continue;
@@ -46,7 +39,7 @@ public class UserInput {
 	
 	
 	
-	public int readTicketNumber()
+	public static int readTicketNumber()
 	{
 		System.out.print( "Please enter ticket number: " );
 		

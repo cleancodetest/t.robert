@@ -3,14 +3,13 @@ import java.util.List;
 
 public class PaymentFlow {
 
-	private UserInput userInput = new UserInput( CoinProcessor.instance);
 	private int currTicketNumber = 0;
 	private Payment currentPayment;
 	
 	
 	public boolean doFlow()
 	{	
-		currTicketNumber = userInput.readTicketNumber();
+		currTicketNumber = UserInput.readTicketNumber();
 		if (currTicketNumber == 0)
 			return false;
 		TicketHandler.instance.setCurrentTicketNumber(currTicketNumber);
@@ -30,7 +29,7 @@ public class PaymentFlow {
 		
 		while (true)
 		{
-			int value = userInput.askForCoin();
+			int value = UserInput.askForCoin();
 			currentPayment.coinInserted( value);
 			
 			if (value > 0  &&  ! needMoreCoins( value))
